@@ -31,4 +31,4 @@ Recursos a qual nosso projeto deve atinir:
 * Egeverton Marcelino
 * Marcos Paulo Abreu
 * Marcos Paulo Pinheiro
-* Paulo 
+* Paulo André Silva Da Fonseca
