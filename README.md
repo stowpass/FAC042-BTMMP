@@ -24,3 +24,11 @@ Recursos a qual nosso projeto deve atinir:
 * PHP
 * JS
 * BOOTSTRAP
+
+## Equipe
+
+* **Breno Teixeira**
+* Egeverton Marcelino
+* Marcos Paulo Abreu
+* Marcos Paulo Pinheiro
+* Paulo 
