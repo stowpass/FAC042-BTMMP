@@ -1,0 +1,261 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: 28-Out-2018 às 17:48
+-- Versão do servidor: 10.1.35-MariaDB
+-- versão do PHP: 7.2.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `locadora`
+--
+DROP DATABASE IF EXISTS `locadora`;
+CREATE DATABASE IF NOT EXISTS `locadora` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `locadora`;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `categoria_veiculo`
+--
+
+CREATE TABLE `categoria_veiculo` (
+  `id` int(11) NOT NULL,
+  `descricao` varchar(200) NOT NULL,
+  `valor_diaria` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `extra_reserva`
+--
+
+CREATE TABLE `extra_reserva` (
+  `id` int(11) NOT NULL,
+  `descricao` varchar(200) NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `id_reserva` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `forma_pagamento`
+--
+
+CREATE TABLE `forma_pagamento` (
+  `id` int(11) NOT NULL,
+  `descricao` varchar(100) NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `perfil_usuario`
+--
+
+CREATE TABLE `perfil_usuario` (
+  `id` int(11) NOT NULL,
+  `descricao` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `reserva`
+--
+
+CREATE TABLE `reserva` (
+  `id` int(11) NOT NULL,
+  `id_veiculo` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `id_forma_pagamento` int(11) NOT NULL,
+  `data_inicio` date NOT NULL,
+  `data_fim` date NOT NULL,
+  `data_checkin` date NOT NULL,
+  `data_chekout` date NOT NULL,
+  `data_reserva` date NOT NULL,
+  `valor_total` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `usuario`
+--
+
+CREATE TABLE `usuario` (
+  `id` int(11) NOT NULL,
+  `id_perfil_usuario` int(11) NOT NULL,
+  `nome` varchar(200) NOT NULL,
+  `endereco` varchar(250) NOT NULL,
+  `cpf` int(20) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `senha` varchar(100) NOT NULL,
+  `data_cadastro` date NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `veiculo`
+--
+
+CREATE TABLE `veiculo` (
+  `id` int(11) NOT NULL,
+  `placa` varchar(20) NOT NULL,
+  `chassi` varchar(50) NOT NULL,
+  `modelo` varchar(50) NOT NULL,
+  `cor` varchar(50) NOT NULL,
+  `id_categoria` int(11) NOT NULL,
+  `data_cadastro` date NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `categoria_veiculo`
+--
+ALTER TABLE `categoria_veiculo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `extra_reserva`
+--
+ALTER TABLE `extra_reserva`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_reserva` (`id_reserva`);
+
+--
+-- Indexes for table `forma_pagamento`
+--
+ALTER TABLE `forma_pagamento`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `perfil_usuario`
+--
+ALTER TABLE `perfil_usuario`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `reserva`
+--
+ALTER TABLE `reserva`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_usuario` (`id_usuario`),
+  ADD KEY `fk_id_forma_pagamento` (`id_forma_pagamento`),
+  ADD KEY `fk_id_veiculo` (`id_veiculo`);
+
+--
+-- Indexes for table `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_perfil_usuario` (`id_perfil_usuario`);
+
+--
+-- Indexes for table `veiculo`
+--
+ALTER TABLE `veiculo`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_id_categoria` (`id_categoria`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `categoria_veiculo`
+--
+ALTER TABLE `categoria_veiculo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `extra_reserva`
+--
+ALTER TABLE `extra_reserva`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `forma_pagamento`
+--
+ALTER TABLE `forma_pagamento`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `perfil_usuario`
+--
+ALTER TABLE `perfil_usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `reserva`
+--
+ALTER TABLE `reserva`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `veiculo`
+--
+ALTER TABLE `veiculo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Limitadores para a tabela `extra_reserva`
+--
+ALTER TABLE `extra_reserva`
+  ADD CONSTRAINT `fk_id_reserva` FOREIGN KEY (`id_reserva`) REFERENCES `reserva` (`id`);
+
+--
+-- Limitadores para a tabela `reserva`
+--
+ALTER TABLE `reserva`
+  ADD CONSTRAINT `fk_id_forma_pagamento` FOREIGN KEY (`id_forma_pagamento`) REFERENCES `forma_pagamento` (`id`),
+  ADD CONSTRAINT `fk_id_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id`),
+  ADD CONSTRAINT `fk_id_veiculo` FOREIGN KEY (`id_veiculo`) REFERENCES `veiculo` (`id`);
+
+--
+-- Limitadores para a tabela `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `fk_id_perfil_usuario` FOREIGN KEY (`id_perfil_usuario`) REFERENCES `categoria_veiculo` (`id`);
+
+--
+-- Limitadores para a tabela `veiculo`
+--
+ALTER TABLE `veiculo`
+  ADD CONSTRAINT `fk_id_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_veiculo` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
