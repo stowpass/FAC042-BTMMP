@@ -79,19 +79,19 @@
               </div>
               <!-- /.box-header -->
               <!-- form start -->
-              <form class="form-horizontal">
+              <form class="form-horizontal" method="post" action="ope.php" id="formlogin" name="formlogin">
                 <div class="box-body">
                   <div class="form-group">
                     <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
 
                     <div class="col-sm-10">
-                      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+                      <input type="email" class="form-control" id="inputEmail3" name="email" placeholder="Email">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
                     <div class="col-sm-10">
-                      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                      <input type="password" class="form-control" id="inputPassword3" name="senha" placeholder="Password">
                     </div>
                   </div>
                   <div class="form-group">
