@@ -1,25 +1,34 @@
-<?php
+<?php 
+session_start();
+$login = $_POST['email'];
+$senha = $_POST['senha'];
 
-$dataBase = "db_locadora"; //nome do banco de dados
-$user = "root"; //usuario que realiza acesso ao banco de dados
-$pass = "AGzzcso1$"; //senha do usuario que realiza acesso ao banco de dados
-$servidor = "localhost"; //servidor que armazena o bando dados
+$dsn = "mysql:host=localhost;dbname=db_locadora";
+$username = "root";
+$password = "AGzzcso1$";
+$options = array(
+PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
+);
 
 try{
-	$db = new PDO("mysql:host=$servidor;dbname=$dataBase", $user, $pass); //conexao está nessa linha
-	$sql = "SELECT * FROM tbl_formapagamento"; //consulta em uma tabela forma de pagamento
-	$res = $db->query($sql); //resultado da consulta
-	while ($linha = $res->fetch()){ //enquanto tiver linha de retorno na consulta, o programa irá continuar
-		$idForma = $linha["idFormaPagamento"];
-		$descricao = $linha["descricao"];
-		$status = $linha["status"];
-		echo "$idForma - $descricao - $status<br>";
-		echo "Conectado com sucesso.";
-	}
-	$db=null;
+	$db = new PDO($dsn,$username,$password,$options);
+	$sql = "SELECT * FROM `tbl_usuario` WHERE `email` = '$login' AND `senha`= '$senha'";
+	$result = $db->query($sql);
 	
+	if($result->fetch()) > 0 )
+	{
+	$_SESSION['email'] = $login;
+	$_SESSION['senha'] = $senha;
+	header('location:site.php');
+	}
+	else{
+	unset ($_SESSION['email']);
+	unset ($_SESSION['senha']);
+	header('location:site.php');
+	
+	}
+} catch (PDOException $e){
+	echo "Error!".$e->getMessage();
 }
-catch(PDOException $e) { //tratamento de exceçao
-  echo $e->getMessage();
-}
+
 ?>

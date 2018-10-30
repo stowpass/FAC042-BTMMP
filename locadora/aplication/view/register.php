@@ -64,14 +64,12 @@
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
-            <label>
-              <input type="checkbox"> Eu aceito os <a href="#">termos</a>
-            </label>
+            
           </div>
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat">CRIAR</button>
         </div>
         <!-- /.col -->
       </div>
