@@ -1,5 +1,32 @@
 <?php
-	include 'aplication/control/conexaoLogar.php'
+
+    $result="";
+    if(isset($_POST['submit'])){
+        require 'phpmailer/PHPMailerAutoload.php';
+        $mail = new PHPMailer;
+
+        $mail->Host='smtp.gmail.com';
+        $mail->Port=587;
+        $mail->SMTPAuth=true;
+        $mail->SMTPSecure='tls';
+        $mail->Username='domlyko8@gmail.com';
+        $mail->Password='AGzzcso1$';
+        $mail->isSMTP();
+
+        $mail->setFrom($_POST['email'],'LOCADORA');
+        $mail->addAddress($_POST['email']);
+        $mail->addReplyTo($_POST['email'],'LOCADORA');
+
+        $mail->isHTML(true);
+        $mail->Subject='RECUPERAÇÃO DE SENHA';
+        $mail->Body='<h1 align=center>E-MAIL: '.$_POST['email'].'<br>SENHA: ... RECURSO NÃO DISPONIVEL TENTE NOVAMENTE MAIS TARDE</h1>';
+
+        if(!$mail->send()){
+            $result="Something went wrong. Please try again.";
+        } else {
+            $result="Sua senha foi enviada para ".$_POST['email'].", favor verificar sua caixa de entrada.";
+        }
+    }
 ?>
 
 
@@ -40,38 +67,30 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Conecte-se</p>
-    <form method="post">
+    <p class="login-box-msg">Esqueci minha senha</p>
+    <h5 class="text-center text-success"><?= $result; ?></h5>
+    <form method="post" action="">
       <div class="form-group has-feedback">
-        <input type="email" class="form-control" placeholder="Email" id="email" name="email">
+        <input type="email" class="form-control" placeholder="Digite o e-mail de recuperação" id="email" name="email">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-      </div>
-      <div class="form-group has-feedback">
-        <input type="password" class="form-control" placeholder="Senha" id="senha" name="senha">
-        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
       <div class="row">
         <div class="col-xs-8">
           <div class="checkbox icheck">
-			<?php  
-				if(isset($message))  
-				{  
-					echo '<label class="text-danger">'.$message.'</label>';  
-				}  
-			?>
+          
+            <a href="index.php">VOLTAR</a><br>
           </div>
+          
         </div>
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat" name="login">LOGAR</button>
+          <button type="submit" class="btn btn-primary btn-block btn-flat" name="submit" id="submit">ENVIAR</button>
         </div>
         <!-- /.col -->
       </div>
+      
     </form>
-	
-
-    <a href="recuperar.php">Esqueci minha senha</a><br>
-    <a href="registrar.php" class="text-center">Cadastrar-me</a>
+   
 
   </div>
   <!-- /.login-box-body -->

@@ -1,0 +1,291 @@
+-- phpMyAdmin SQL Dump
+-- version 4.8.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: 31-Out-2018 às 03:34
+-- Versão do servidor: 10.1.35-MariaDB
+-- versão do PHP: 7.2.9
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `db_locadora`
+--
+CREATE DATABASE IF NOT EXISTS `db_locadora` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `db_locadora`;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_categoria`
+--
+
+DROP TABLE IF EXISTS `tbl_categoria`;
+CREATE TABLE `tbl_categoria` (
+  `idCategoria` int(11) NOT NULL,
+  `descricao` varchar(200) NOT NULL,
+  `valorDiaria` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_extrareserva`
+--
+
+DROP TABLE IF EXISTS `tbl_extrareserva`;
+CREATE TABLE `tbl_extrareserva` (
+  `idExtraReserva` int(11) NOT NULL,
+  `descricao` varchar(200) NOT NULL,
+  `valor` decimal(10,2) NOT NULL,
+  `idReserva` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_formapagamento`
+--
+
+DROP TABLE IF EXISTS `tbl_formapagamento`;
+CREATE TABLE `tbl_formapagamento` (
+  `idFormaPagamento` int(11) NOT NULL,
+  `descricao` varchar(100) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_perfilusuario`
+--
+
+DROP TABLE IF EXISTS `tbl_perfilusuario`;
+CREATE TABLE `tbl_perfilusuario` (
+  `idPerfilUsuario` int(11) NOT NULL,
+  `descricao` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `tbl_perfilusuario`
+--
+
+INSERT INTO `tbl_perfilusuario` (`idPerfilUsuario`, `descricao`) VALUES
+(1, 'Administrador'),
+(2, 'Funcionario'),
+(3, 'Usuario');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_reserva`
+--
+
+DROP TABLE IF EXISTS `tbl_reserva`;
+CREATE TABLE `tbl_reserva` (
+  `idReserva` int(11) NOT NULL,
+  `idVeiculo` int(11) NOT NULL,
+  `idUsuario` int(11) NOT NULL,
+  `dt_inicio` datetime NOT NULL,
+  `data_fim` datetime NOT NULL,
+  `idFormaPagamento` int(11) NOT NULL,
+  `data_checkin` datetime NOT NULL,
+  `data_chekout` datetime NOT NULL,
+  `data_reserva` datetime NOT NULL,
+  `valorPago` decimal(10,2) NOT NULL,
+  `dano` tinyint(1) NOT NULL DEFAULT '1',
+  `limpo` tinyint(1) NOT NULL DEFAULT '1',
+  `abastecido` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_usuario`
+--
+
+DROP TABLE IF EXISTS `tbl_usuario`;
+CREATE TABLE `tbl_usuario` (
+  `idUsuario` int(11) NOT NULL,
+  `idPerfilUsuario` int(11) NOT NULL,
+  `cpf` varchar(11) NOT NULL,
+  `nome` varchar(200) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `senha` varchar(100) NOT NULL,
+  `endereco` varchar(250) NOT NULL,
+  `dt_cadastro` datetime NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `tbl_usuario`
+--
+
+INSERT INTO `tbl_usuario` (`idUsuario`, `idPerfilUsuario`, `cpf`, `nome`, `email`, `senha`, `endereco`, `dt_cadastro`, `status`) VALUES
+(1, 1, '522594306', 'Breno Teixeira', 'inf.teixeira@gmail.com', 'AGzzcso1$', 'Rua La casa do Carallo', '2018-10-29 13:59:00', 1),
+(2, 1, '655294309', 'Admin', 'admin@admin', 'admin', 'Rua La casa do Carallo', '2018-10-29 15:00:00', 1),
+(3, 2, '233525602', 'Funcionario', 'funcionario@funcionario', 'funcionario', 'Rua La casa do Carallo', '2018-10-29 16:00:00', 1),
+(4, 3, '655294309', 'Usuario', 'usuario@usuario', 'usuario', 'Rua La casa do Carallo', '2018-10-29 16:00:00', 1),
+(5, 2, '55222451522', 'ton', 'stowpass@gmail.com', '123', 'RUA JABORANDi\r\n825', '2018-10-30 00:00:00', 1),
+(18, 2, '00655294309', 'Ton Marcelino', 'ton@ton.com', 'monalisa', 'rua de casa', '2018-10-30 00:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `tbl_veiculo`
+--
+
+DROP TABLE IF EXISTS `tbl_veiculo`;
+CREATE TABLE `tbl_veiculo` (
+  `idVeiculo` int(11) NOT NULL,
+  `placa` varchar(20) NOT NULL,
+  `chassi` varchar(50) NOT NULL,
+  `modelo` varchar(50) NOT NULL,
+  `cor` varchar(50) NOT NULL,
+  `idCategoria` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `dt_cadastro` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `tbl_categoria`
+--
+ALTER TABLE `tbl_categoria`
+  ADD PRIMARY KEY (`idCategoria`);
+
+--
+-- Indexes for table `tbl_extrareserva`
+--
+ALTER TABLE `tbl_extrareserva`
+  ADD PRIMARY KEY (`idExtraReserva`),
+  ADD KEY `fk_idReserva` (`idReserva`);
+
+--
+-- Indexes for table `tbl_formapagamento`
+--
+ALTER TABLE `tbl_formapagamento`
+  ADD PRIMARY KEY (`idFormaPagamento`);
+
+--
+-- Indexes for table `tbl_perfilusuario`
+--
+ALTER TABLE `tbl_perfilusuario`
+  ADD PRIMARY KEY (`idPerfilUsuario`);
+
+--
+-- Indexes for table `tbl_reserva`
+--
+ALTER TABLE `tbl_reserva`
+  ADD PRIMARY KEY (`idReserva`),
+  ADD KEY `fk_idUsuario` (`idUsuario`),
+  ADD KEY `fk_idFormaPagamento` (`idFormaPagamento`),
+  ADD KEY `fk_idVeiculo` (`idVeiculo`);
+
+--
+-- Indexes for table `tbl_usuario`
+--
+ALTER TABLE `tbl_usuario`
+  ADD PRIMARY KEY (`idUsuario`),
+  ADD KEY `fk_idPerfilUsuario` (`idPerfilUsuario`);
+
+--
+-- Indexes for table `tbl_veiculo`
+--
+ALTER TABLE `tbl_veiculo`
+  ADD PRIMARY KEY (`idVeiculo`),
+  ADD KEY `fk_idCategoria` (`idCategoria`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tbl_categoria`
+--
+ALTER TABLE `tbl_categoria`
+  MODIFY `idCategoria` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_extrareserva`
+--
+ALTER TABLE `tbl_extrareserva`
+  MODIFY `idExtraReserva` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_formapagamento`
+--
+ALTER TABLE `tbl_formapagamento`
+  MODIFY `idFormaPagamento` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_perfilusuario`
+--
+ALTER TABLE `tbl_perfilusuario`
+  MODIFY `idPerfilUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tbl_reserva`
+--
+ALTER TABLE `tbl_reserva`
+  MODIFY `idReserva` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `tbl_usuario`
+--
+ALTER TABLE `tbl_usuario`
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+
+--
+-- AUTO_INCREMENT for table `tbl_veiculo`
+--
+ALTER TABLE `tbl_veiculo`
+  MODIFY `idVeiculo` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Limitadores para a tabela `tbl_extrareserva`
+--
+ALTER TABLE `tbl_extrareserva`
+  ADD CONSTRAINT `fk_idReserva` FOREIGN KEY (`idReserva`) REFERENCES `tbl_reserva` (`idReserva`);
+
+--
+-- Limitadores para a tabela `tbl_reserva`
+--
+ALTER TABLE `tbl_reserva`
+  ADD CONSTRAINT `fk_idFormaPagamento` FOREIGN KEY (`idFormaPagamento`) REFERENCES `tbl_formapagamento` (`idFormaPagamento`),
+  ADD CONSTRAINT `fk_idUsuario` FOREIGN KEY (`idUsuario`) REFERENCES `tbl_usuario` (`idUsuario`),
+  ADD CONSTRAINT `fk_idVeiculo` FOREIGN KEY (`idVeiculo`) REFERENCES `tbl_veiculo` (`idVeiculo`);
+
+--
+-- Limitadores para a tabela `tbl_usuario`
+--
+ALTER TABLE `tbl_usuario`
+  ADD CONSTRAINT `fk_idPerfilUsuario` FOREIGN KEY (`idPerfilUsuario`) REFERENCES `tbl_perfilusuario` (`idPerfilUsuario`);
+
+--
+-- Limitadores para a tabela `tbl_veiculo`
+--
+ALTER TABLE `tbl_veiculo`
+  ADD CONSTRAINT `fk_idCategoria` FOREIGN KEY (`idCategoria`) REFERENCES `tbl_categoria` (`idCategoria`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
