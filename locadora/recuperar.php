@@ -2,7 +2,7 @@
 
     $result="";
     if(isset($_POST['submit'])){
-        require 'phpmailer/PHPMailerAutoload.php';
+        require 'controler/phpmailer/PHPMailerAutoload.php';
         $mail = new PHPMailer;
 
         $mail->Host='smtp.gmail.com';
@@ -22,7 +22,7 @@
         $mail->Body='<h1 align=center>E-MAIL: '.$_POST['email'].'<br>SENHA: ... RECURSO NÃO DISPONIVEL TENTE NOVAMENTE MAIS TARDE</h1>';
 
         if(!$mail->send()){
-            $result="Something went wrong. Please try again.";
+            $result="Serviço indisponível, tente novamente mais tarde.";
         } else {
             $result="Sua senha foi enviada para ".$_POST['email'].", favor verificar sua caixa de entrada.";
         }

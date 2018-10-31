@@ -30,7 +30,7 @@
                 if($count > 0)  
                 {  
 					 $_SESSION["email"] = $_POST["email"];
-                     header("location:aplication/view/home.php");  
+                     header("location:home.php");  
                 }  
                 else  
                 {  
